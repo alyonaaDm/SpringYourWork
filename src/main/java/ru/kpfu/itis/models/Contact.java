@@ -24,4 +24,7 @@ public class Contact {
 
     @Column(name = "contact")
     private String contact;
+
+    @ManyToOne
+    private Resume resume;
 }

@@ -31,8 +31,8 @@
                     <ul class="nav navbar-nav navbar-nav-right">
                         <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover" href="#body">Home</a>
                         </li>
-                        <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover" href="/resumes">Resumes</a>
-                        </li>
+                        <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover"
+                                                            href="/resumes">Resumes</a></li>
                         <#if resume.user??>
                             <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover"
                                                                 href="/profile">Profile</a></li>
@@ -55,42 +55,75 @@
         <div class="profile-container">
             <img class="profile" src="/assets/img/images/profile.png" alt=""/>
             <h1 class="name">${resume.user.firstName!""} ${resume.user.lastName!""}</h1>
-            <h3 class="tagline">${resume.title!""}</h3>
+            <label for="title"></label><input id="title" type="text" class="tagline" style="color: #0f0f0f"
+                                              value="${resume.title!""}">
+            <button onclick="updateTitle(${resume.id})">Save</button>
         </div>
         <div class="container container-block">
             <h2 class="container-block-title">Contacts</h2>
-            <ul class="list-unstyled list">
+            <ul class="list-unstyled list" id="contacts_container">
                 <#list resume.contacts as contact>
-                    <li>${contact.title} <a href="#" target="_blank">${contact.contact}</a></li>
+                    <li id="contact_${contact.id}">${contact.title} <a href="#" target="_blank">${contact.contact}</a>
+                    </li>
                 </#list>
+                <li>
+                    <label for="new_contact_title"></label><input type="text" id="new_contact_title"
+                                                                  placeholder="title">
+                    <label for="new_contact_info"></label><input type="text" id="new_contact_info"
+                                                                 placeholder="details">
+                    <button onclick="addContact(${resume.id})">Add</button>
+                </li>
             </ul>
         </div>
-        <div class="education-container container-block">
+        <div class="education-container container-block" id="educations_container">
             <h2 class="container-block-title">Education</h2>
             <#list resume.educations as education>
-                <div class="item">
+                <div class="item" id="education_${education.id}">
                     <h4 class="degree">${education.title}</h4>
                     <h5 class="meta">${education.place}</h5>
                     <div class="time">${education.workTimeInterval}</div>
                 </div>
             </#list>
+            <li>
+                <label for="new_education_title">Title</label><input type="text" id="new_education_title"
+                                                                     placeholder="title">
+                <label for="new_education_place">Place</label><input type="text" id="new_education_place"
+                                                                     placeholder="Place">
+                <label for="new_education_time">Time inverval</label><input type="text" id="new_education_time"
+                                                                            placeholder="Time inverval">
+                <button onclick="addEducation(${resume.id})">Add</button>
+            </li>
         </div>
 
         <div class="languages-container container-block">
             <h2 class="container-block-title">Languages</h2>
-            <ul class="list-unstyled list">
+            <ul class="list-unstyled list" id="languages_container">
                 <#list resume.languages as language>
-                    <li>${language.language} <span class="lang-desc">(${language.level})</span></li>
+                    <li>${language.language} <span class="lang-desc">(${language.level})</span>
+                    </li>
                 </#list>
+                <li>
+                    <label for="new_language">Title</label><input type="text" id="new_language"
+                                                                  placeholder="title">
+                    <label for="new_language_level">Level</label><input type="text" id="new_language_level"
+                                                                        placeholder="level">
+                    <button onclick="addLanguage(${resume.id})">Add</button>
+                </li>
             </ul>
         </div>
 
         <div class="interests-container container-block">
             <h2 class="container-block-title">Interests</h2>
-            <ul class="list-unstyled list">
+            <ul class="list-unstyled list" id="interests_container">
                 <#list resume.interests as interest>
-                    <li>${interest.title}</li>
+                    <li>${interest.title}
+                    </li>
                 </#list>
+                <li>
+                    <label for="new_interest">Title</label><input type="text" id="new_interest"
+                                                                  placeholder="title">
+                    <button onclick="addInterest(${resume.id})">Add</button>
+                </li>
             </ul>
         </div>
     </div>
@@ -98,10 +131,12 @@
         <section class="section summary-section">
             <h2 class="section-title"><i class="fa fa-user"></i>About me</h2>
             <div class="summary">
-                <p>${resume.about!""}</p>
+                <label for="about">About me</label><textarea id="about"
+                                                             placeholder="About me">${resume.about!""}</textarea>
+                <button onclick="updateAboutMe(${resume.id})">Save</button>
             </div>
         </section>
-        <section class="section experiences-section">
+        <section class="section experiences-section" id="experiences_container">
             <h2 class="section-title"><i class="fa fa-briefcase"></i>Experiences</h2>
             <#list resume.experiences as experience>
                 <div class="item">
@@ -117,8 +152,20 @@
                     </div>
                 </div>
             </#list>
+            <div>
+                <label for="new_experience_title">Title</label><input type="text" id="new_experience_title"
+                                                                      placeholder="title">
+                <label for="new_experience_time">Work Time</label><input type="text" id="new_experience_time"
+                                                                         placeholder="Work Time Interval">
+                <label for="new_experience_place">Place</label><input type="text" id="new_experience_place"
+                                                                      placeholder="Place">
+                <label for="new_experience_description">Description</label><input type="text"
+                                                                                  id="new_experience_description"
+                                                                                  placeholder="description">
+                <button onclick="addExperience(${resume.id})">Add</button>
+            </div>
         </section>
-        <section class="section projects-section">
+        <section class="section projects-section" id="projects_container">
             <h2 class="section-title"><i class="fa fa-archive"></i>Projects</h2>
             <#list resume.projects as project>
                 <div class="item">
@@ -126,15 +173,27 @@
                             class="project-tagline">${project.description}</span>
                 </div>
             </#list>
+            <div>
+                <label for="new_project_title">Title</label><input type="text" id="new_project_title"
+                                                                   placeholder="title">
+                <label for="new_project_description">Description</label><input type="text" id="new_project_description"
+                                                                               placeholder="description">
+                <button onclick="addProject(${resume.id})">Add</button>
+            </div>
         </section>
         <section class="skills-section section">
             <h2 class="section-title"><i class="fa fa-rocket"></i>Skills</h2>
-            <div class="skillset">
+            <div class="skillset" id="skills_container">
                 <#list resume.skills as skill>
                     <div class="item">
                         <h3 class="level-title">${skill.title}</h3>
                     </div>
                 </#list>
+                <div>
+                    <label for="new_skill_title">Skill</label><input type="text" id="new_skill_title"
+                                                                     placeholder="Skill">
+                    <button onclick="addSkill(${resume.id})">Add</button>
+                </div>
             </div>
         </section>
 
@@ -147,10 +206,13 @@
                                      target="_blank">Naumova Alyona</a> for
             employees</small>
     </div>
-    <div class="text-center">
-        <small><a href="/support">Support</a></small>
-    </div>
 </footer>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+<script src="/assets/js/resume.js"
+        type="text/javascript"></script>
 </body>
 </html>
 

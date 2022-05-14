@@ -62,4 +62,9 @@ public class UsersServicesImpl implements UsersService {
         }
         return null;
     }
+
+    @Override
+    public void updateUserImage(Long userId, String imageSrc) {
+        usersRepository.updateUserImage(userId, imageSrc);
+    }
 }

@@ -21,4 +21,7 @@ public class Interest {
 
     @Column(name = "title")
     private String title;
+
+    @ManyToOne
+    private Resume resume;
 }

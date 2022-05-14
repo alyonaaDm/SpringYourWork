@@ -40,7 +40,7 @@
                     <ul class="nav navbar-nav navbar-nav-right">
                         <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover" href="#body">Home</a>
                         </li>
-                        <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover" href="#resumes">Resumes</a>
+                        <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover" href="/resumes">Resumes</a>
                         </li>
                         <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover"
                                                             href="/signIn">Sign
@@ -55,7 +55,7 @@
     </nav>
 </header>
 
-<div class="promo-block">
+<div class="promo-block" style="background-image: url(/assets/img/1920x1080/01.jpg)">
     <div class="container">
         <div class="margin-b-40">
             <h1 class="promo-block-title">Find the boss here</h1>
@@ -128,6 +128,9 @@
                                                      href="https://vk.com/alena.naud">Naumova
                         Alyona</a></p>
             </div>
+                <div class="text-center">
+                    <small><a href="/support">Support</a></small>
+                </div>
         </div>
     </div>
 </footer>

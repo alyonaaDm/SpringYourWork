@@ -21,29 +21,8 @@ import java.io.IOException;
 @RequestMapping("/signIn")
 public class SignInController {
 
-    @Autowired
-    private UsersService usersService;
-
     @GetMapping
     public ModelAndView getSignInPage() {
         return new ModelAndView("signIn");
-    }
-
-    @PostMapping
-    public ModelAndView signIn(SignInDto signInDto, HttpServletResponse resp) throws ServletException, IOException {
-        String login = signInDto.getLogin();
-        String password = signInDto.getPassword();
-        LoginForm loginForm = new LoginForm(login, password);
-
-        Cookie cookie = usersService.signIn(loginForm);
-        System.out.println(cookie);
-        if (cookie != null) {
-            resp.addCookie(cookie);
-            return new ModelAndView("redirect:/profile");
-        }
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("signInStatus", "Неправильный логин или пароль");
-        modelAndView.setViewName("redirect:/signIn");
-        return modelAndView;
     }
 }

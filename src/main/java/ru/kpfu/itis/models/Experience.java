@@ -30,4 +30,7 @@ public class Experience {
 
     @Column(name = "work_time_interval")
     private String workTimeInterval;
+
+    @ManyToOne
+    private Resume resume;
 }

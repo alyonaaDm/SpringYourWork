@@ -59,17 +59,8 @@
                 <h2>Resumes</h2>
             </div>
         </div>
-        <div class="col-sm-4 sm-margin-b-50">
-            <h4>Developer</h4>
-            <p>I am developer</p>
-
-            <p>Skills: Python Swift</p>
-            <form action="/resumes/1" method="get">
-                <button class="link" type="submit">Read More</button>
-            </form>
-        </div>
         <#list resumes as resume>
-            <div class="col-sm-4 sm-margin-b-50">
+            <div class="col-sm-4 sm-margin-b-50" style="background-color: #f6f6f6">
                 <h4>${resume.title}</h4>
                 <p>${resume.about}</p>
 
@@ -89,12 +80,15 @@
                      alt="yourWork Logo">
             </div>
             <div class="col-xs-6 text-right">
+                <p class="margin-b-0"><a class="fweight-700"
+                                         href="/support">Support</a></p>
                 <p class="margin-b-0">powered by: <a class="fweight-700"
                                                      href="https://vk.com/alena.naud">Naumova
                         Alyona</a></p>
             </div>
         </div>
     </div>
+
 </footer>
 
 <!-- JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->

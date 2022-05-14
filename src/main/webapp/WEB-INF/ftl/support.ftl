@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="/assets/css/layout.min.css">
 
 </head>
-<body id="body" data-spy="scroll" data-target=".header">
+<body id="body" data-spy="scroll" data-target=".header" onload="connect(${user.id})">
 <header class="header navbar-fixed-top">
     <nav class="navbar" role="navigation">
         <div class="container">
@@ -63,50 +63,19 @@
     <div class="container content-lg">
         <div class="row text-center margin-b-40">
             <div class="col-sm-6 col-sm-offset-3">
-                <div>
-                    <img src="${user.imageSrc!"/assets/img/images/profile.png"}" alt="User Image">
-                    <form action="/profile" enctype="multipart/form-data" method="post">
-                        <input type="file" id="userImage" name="userImage" title="Change Image">
-                        <button type="submit">Save</button>
-                    </form>
-                    <h1>${user.firstName!""} ${user.lastName!""}</h1>
-                </div>
-                <h2>My Resumes</h2>
+                <h2>Support</h2>
             </div>
-        </div>
-        <div class="col-sm-4 sm-margin-b-50" style="background-color: #f6f6f6">
-            <h4>New Resume</h4>
-            <form action="/resumes" method="post">
-                <label for="resumeTitle">Title</label><input id="resumeTitle" name="resumeTitle" type="text"
-                                                             placeholder="Title">
-                <button class="link" type="submit">Create</button>
-            </form>
-        </div>
-        <#list resumes as resume>
-            <div class="col-sm-4 sm-margin-b-50" style="background-color: #f6f6f6">
-                <h4>${resume.title}</h4>
-                <p>${resume.about}</p>
 
-                <p>Skills: <#list resume.skills as skill>${skill.title!""} </#list></p>
-                <form action="/resumes/${resume.id}" method="get">
-                    <button class="link" type="submit">Read More</button>
-                </form>
-                <form action="/resumes/${resume.id}/edit" method="get">
-                    <button class="link" type="submit">Edit</button>
-                </form>
+            <div id="chatScrollView" style="overflow:scroll; height:400px;">
+                <div id="messages"></div>
             </div>
-            <br>
-        </#list>
-    </div>
-
-    <div class="container-full-width">
-        <div class="row row-space-2">
-            <div class="col-sm-6 sm-margin-b-4">
-                <img class="img-responsive" src="/assets/img/970x647/01.jpg" alt="Image">
+            <div style="text-align: center">
+                <button id="enterChatButton" onclick="loginToChat('${user.firstName}')">Start chat</button>
             </div>
-            <div class="col-sm-6">
-                <img class="img-responsive" src="/assets/img/970x647/03.jpg" alt="Image">
-            </div>
+            <label for="message"></label><input name="message" id="message" disabled placeholder="Message" hidden>
+            <button onclick="sendMessage('${user.firstName}', $('#message').val())" id="sendMessageButton" hidden>
+                Send
+            </button>
         </div>
     </div>
 </div>
@@ -118,12 +87,11 @@
                      alt="yourWork Logo">
             </div>
             <div class="col-xs-6 text-right">
+                <p class="margin-b-0"><a class="fweight-700"
+                                         href="/support">Support</a></p>
                 <p class="margin-b-0">powered by: <a class="fweight-700"
                                                      href="https://vk.com/alena.naud">Naumova
                         Alyona</a></p>
-            </div>
-            <div class="text-center">
-                <small><a href="/support">Support</a></small>
             </div>
         </div>
     </div>
@@ -143,9 +111,6 @@
         async defer></script>
 
 <!-- PAGE LEVEL SCRIPTS -->
-
-<script src="https://code.jquery.com/jquery-3.6.0.js"
-        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script src="/assets/js/layout.min.js" type="text/javascript"></script>
 <script src="/assets/js/components/wow.min.js"
         type="text/javascript"></script>
@@ -153,5 +118,8 @@
         type="text/javascript"></script>
 <script src="/assets/js/components/masonry.min.js"
         type="text/javascript"></script>
+<script src="/assets/js/support.js"
+        type="text/javascript"></script>
+
 </body>
 </html>

@@ -24,4 +24,7 @@ public class Language {
 
     @Column(name = "level")
     private String level;
+
+    @ManyToOne
+    private Resume resume;
 }

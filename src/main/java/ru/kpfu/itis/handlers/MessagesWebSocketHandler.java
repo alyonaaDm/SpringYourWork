@@ -33,10 +33,10 @@ public class MessagesWebSocketHandler extends TextWebSocketHandler {
 
         User user;
         switch (messageDto.getMessageType()) {
-            case "enterChat":
+            case "loginToChat":
                 sessions.put(messageDto.getUsername(), session);
                 messageDto.setMessageType("chat");
-                messageDto.setBody("вошёл в чат...");
+                messageDto.setBody("started chat...");
                 for (WebSocketSession currentSession : sessions.values()) {
                     currentSession.sendMessage(new TextMessage(objectMapper.writeValueAsString(messageDto)));
                 }

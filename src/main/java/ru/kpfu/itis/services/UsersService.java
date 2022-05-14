@@ -9,5 +9,7 @@ import javax.servlet.http.Cookie;
 public interface UsersService {
     User register(UserForm userForm);
     Cookie signIn(LoginForm loginForm);
+
+    void updateUserImage(Long userId, String imageSrc);
 }
 
