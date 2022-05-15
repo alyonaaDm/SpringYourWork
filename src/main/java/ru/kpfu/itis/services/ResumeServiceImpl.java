@@ -1,6 +1,10 @@
 package ru.kpfu.itis.services;
 
+import org.apache.commons.mail.DefaultAuthenticator;
+import org.apache.commons.mail.Email;
+import org.apache.commons.mail.SimpleEmail;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.kpfu.itis.form.*;
 import ru.kpfu.itis.models.*;
@@ -29,13 +33,21 @@ public class ResumeServiceImpl implements ResumeService {
     @Autowired
     private SkillsRepository skillsRepository;
 
+    @Value("${sender.email}")
+    private String senderEmail;
+
+    @Value("${sender.password}")
+    private String senderPassword;
+
     @Override
     public Resume createResume(ResumeForm resumeForm) {
         Resume resume = Resume.builder()
                 .title(resumeForm.getTitle())
                 .user(resumeForm.getUser())
                 .build();
-        return resumesRepository.save(resume);
+        Resume resume1 = resumesRepository.save(resume);
+        sendNotificationEmail(resume1);
+        return resume1;
     }
 
     @Override
@@ -218,6 +230,7 @@ public class ResumeServiceImpl implements ResumeService {
             language.setResume(null);
         }
         return languages;
+
     }
 
     @Override
@@ -227,5 +240,32 @@ public class ResumeServiceImpl implements ResumeService {
             interest.setResume(null);
         }
         return interests;
+    }
+
+    @Override
+    public void sendNotificationEmail(Resume resume) {
+        try {
+            Email emailMessage = new SimpleEmail();
+
+            emailMessage.setSmtpPort(25);
+            emailMessage.setAuthenticator(new DefaultAuthenticator(senderEmail, senderPassword));
+            emailMessage.setHostName("smtp.mail.ru");
+            emailMessage.setSSLOnConnect(true);
+
+            emailMessage.setFrom(senderEmail);
+            emailMessage.setSubject("Created new resume");
+
+            User user = resume.getUser();
+            emailMessage.setMsg(user.getFirstName() + " " + user.getLastName() +
+                    ",\nYou created a new resume (" + resume.getTitle() + ")\n" +
+                    " Now you can edit it from your profile page.");
+
+            emailMessage.addTo(user.getLogin());
+            emailMessage.send();
+            System.out.println("Successful email send!!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error sending email");
+        }
     }
 }

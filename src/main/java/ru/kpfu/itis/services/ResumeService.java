@@ -47,5 +47,7 @@ public interface ResumeService {
 
     List<Interest> findAllInterestByResume(Resume resume);
 
+    void sendNotificationEmail(Resume resume);
+
 }
 

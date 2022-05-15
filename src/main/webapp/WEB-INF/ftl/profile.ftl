@@ -85,7 +85,7 @@
         <#list resumes as resume>
             <div class="col-sm-4 sm-margin-b-50" style="background-color: #f6f6f6">
                 <h4>${resume.title}</h4>
-                <p>${resume.about}</p>
+                <p>${resume.about!""}</p>
 
                 <p>Skills: <#list resume.skills as skill>${skill.title!""} </#list></p>
                 <form action="/resumes/${resume.id}" method="get">
