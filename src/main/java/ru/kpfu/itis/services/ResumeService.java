@@ -49,5 +49,14 @@ public interface ResumeService {
 
     void sendNotificationEmail(Resume resume);
 
+    Rate rateResume(RateForm rateForm);
+
+    List<Rate> findRatesByResume(Resume resume);
+
+    Float findAverageRateOfResume(Resume resume);
+
+    void updateResumeImage(Long resumeId, String imagePath);
+
+    Rate findRateByUserAndResume(User user, Resume resume);
 }
 

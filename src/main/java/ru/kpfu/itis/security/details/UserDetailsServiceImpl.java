@@ -26,5 +26,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         } else {
             throw new SecurityException("User with email <" + email + "> not found");
         }
+
     }
 }

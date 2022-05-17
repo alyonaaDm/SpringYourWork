@@ -1,9 +1,16 @@
 package ru.kpfu.itis.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.mail.DefaultAuthenticator;
+import org.apache.commons.mail.Email;
+import org.apache.commons.mail.SimpleEmail;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import ru.kpfu.itis.dto.SignUpDto;
@@ -36,4 +43,5 @@ public class RegistrationController {
         modelAndView.setViewName("redirect:/signIn");
         return modelAndView;
     }
+
 }

@@ -13,8 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import ru.kpfu.itis.models.Resume;
 import ru.kpfu.itis.models.User;
-import ru.kpfu.itis.repositories.UsersRepository;
 import ru.kpfu.itis.services.ResumeService;
+import ru.kpfu.itis.services.UsersService;
 
 import java.io.File;
 import java.io.IOException;
@@ -36,7 +36,7 @@ public class ProfileController {
     private ResumeService resumeService;
 
     @Autowired
-    private UsersRepository usersRepository;
+    private UsersService usersService;
 
     @GetMapping
     public ModelAndView getProfilePage(Authentication authentication) {
@@ -56,7 +56,7 @@ public class ProfileController {
             String fileName = userImage.getOriginalFilename();
             try {
                 userImage.transferTo(new File(absoluteFilePath + fileName));
-                usersRepository.updateUserImage(user.getId(), filePath + fileName);
+                usersService.updateUserImage(user.getId(), filePath + fileName);
             } catch (IOException e) {
                 logger.error("Произошла ошибка во время загрузки файла");
             }

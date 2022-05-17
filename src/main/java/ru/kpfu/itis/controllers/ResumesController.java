@@ -1,21 +1,29 @@
 package ru.kpfu.itis.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import ru.kpfu.itis.dto.*;
 import ru.kpfu.itis.form.*;
 import ru.kpfu.itis.models.*;
+import ru.kpfu.itis.repositories.UsersRepository;
 import ru.kpfu.itis.services.ResumeService;
+import ru.kpfu.itis.services.UsersService;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.List;
 
 @Controller
@@ -24,8 +32,19 @@ public class ResumesController {
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
+    private final Logger logger = LoggerFactory.getLogger(ProfileController.class);
+
+    @Value("${custom.absolute.file.storage}")
+    private String absoluteFilePath;
+
+    @Value("${custom.file.storage}")
+    private String filePath;
+
     @Autowired
     private ResumeService resumeService;
+
+    @Autowired
+    private UsersService usersService;
 
     @GetMapping
     public ModelAndView getResumesPage() {
@@ -37,12 +56,25 @@ public class ResumesController {
     }
 
     @GetMapping("/{id}")
-    public ModelAndView openResume(@PathVariable Long id) {
+    public ModelAndView openResume(@PathVariable Long id, Authentication authentication) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("resumePage");
         Resume resume = resumeService.getById(id);
         if (resume.getId() == null) return new ModelAndView("redirect:/resumes");
         modelAndView.addObject("resume", resume);
+
+        if (authentication != null) {
+            User user = (User) authentication.getPrincipal();
+            Rate rate = resumeService.findRateByUserAndResume(user, resume);
+            if (rate != null) {
+                modelAndView.addObject("userRate", rate.getRate());
+            }
+        }
+        Float averageRate = resumeService.findAverageRateOfResume(resume);
+        if (averageRate != null) {
+            String rate = new DecimalFormat("#0.0").format(averageRate);
+            modelAndView.addObject("rate", rate);
+        }
         return modelAndView;
     }
 
@@ -174,6 +206,37 @@ public class ResumesController {
                 .build();
         Skill skill = resumeService.addSkill(skillForm);
         String json = objectMapper.writeValueAsString(skill);
+        response.setContentType("application/json");
+        response.getWriter().println(json);
+    }
+
+    @PostMapping("/add_image/{id}")
+    public ModelAndView addImage(@PathVariable Long id, MultipartFile resumeImage) {
+        if (resumeImage != null) {
+            logger.info("Загружаем файл");
+            String fileName = resumeImage.getOriginalFilename();
+            try {
+                resumeImage.transferTo(new File(absoluteFilePath + fileName));
+                resumeService.updateResumeImage(id, filePath + fileName);
+            } catch (IOException e) {
+                logger.error("Произошла ошибка во время загрузки файла");
+            }
+            logger.info("Файл успешно загружен");
+        }
+        return new ModelAndView("redirect:/resumes/" + id + "/edit");
+    }
+
+    @PostMapping("/send_rate")
+    public void sendRate(RateDto rateDto, HttpServletResponse response, Authentication authentication) throws IOException {
+        User user = (User) authentication.getPrincipal();
+        Resume resume = resumeService.getById(rateDto.getResumeId());
+        RateForm rateForm = RateForm.builder()
+                .rate(rateDto.getRate())
+                .user(user)
+                .resume(resume)
+                .build();
+        Rate rate = resumeService.rateResume(rateForm);
+        String json = objectMapper.writeValueAsString(rate.getRate());
         response.setContentType("application/json");
         response.getWriter().println(json);
     }

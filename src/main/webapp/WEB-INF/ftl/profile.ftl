@@ -38,9 +38,11 @@
             <div class="collapse navbar-collapse nav-collapse">
                 <div class="menu-container">
                     <ul class="nav navbar-nav navbar-nav-right">
-                        <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover" href="#body">Home</a>
+                        <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover" href="/home">Home</a>
                         </li>
                         <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover" href="/resumes">Resumes</a>
+                        </li>
+                        <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover" href="/support">Support</a>
                         </li>
                         <#if user??>
                             <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover"
@@ -84,10 +86,9 @@
         </div>
         <#list resumes as resume>
             <div class="col-sm-4 sm-margin-b-50" style="background-color: #f6f6f6">
-                <h4>${resume.title}</h4>
-                <p>${resume.about!""}</p>
+                <h4>${resume.title!""}</h4>
+                <p>About me: ${resume.about!""}</p>
 
-                <p>Skills: <#list resume.skills as skill>${skill.title!""} </#list></p>
                 <form action="/resumes/${resume.id}" method="get">
                     <button class="link" type="submit">Read More</button>
                 </form>
@@ -121,9 +122,6 @@
                 <p class="margin-b-0">powered by: <a class="fweight-700"
                                                      href="https://vk.com/alena.naud">Naumova
                         Alyona</a></p>
-            </div>
-            <div class="text-center">
-                <small><a href="/support">Support</a></small>
             </div>
         </div>
     </div>

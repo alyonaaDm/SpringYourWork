@@ -2,6 +2,7 @@ package ru.kpfu.itis.services;
 
 import ru.kpfu.itis.form.LoginForm;
 import ru.kpfu.itis.form.UserForm;
+import ru.kpfu.itis.models.Resume;
 import ru.kpfu.itis.models.User;
 
 import javax.servlet.http.Cookie;
@@ -11,5 +12,6 @@ public interface UsersService {
     Cookie signIn(LoginForm loginForm);
 
     void updateUserImage(Long userId, String imageSrc);
+
 }
 

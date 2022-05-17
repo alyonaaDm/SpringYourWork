@@ -29,6 +29,9 @@ public class Resume {
     @Column(name = "about")
     private String about;
 
+    @Column(name = "image_path")
+    private String imagePath;
+
     @OneToMany
     private List<Contact> contacts;
 

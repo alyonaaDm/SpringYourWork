@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.kpfu.itis.form.LoginForm;
 import ru.kpfu.itis.form.UserForm;
+import ru.kpfu.itis.models.Resume;
 import ru.kpfu.itis.models.User;
 import ru.kpfu.itis.repositories.AuthRepository;
 import ru.kpfu.itis.repositories.UsersRepository;

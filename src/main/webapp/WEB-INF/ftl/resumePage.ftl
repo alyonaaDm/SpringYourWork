@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="utf-8">
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,500,400italic,300italic,300,500italic,700,700italic,900,900italic'
           rel='stylesheet' type='text/css'>
@@ -13,8 +14,8 @@
         <div class="container">
             <!-- верхняя неизменная панель -->
             <div class="menu-container js_nav-item">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
-                    <span class="sr-only">Toggle navigation</span>
+<#--                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">-->
+<#--                    <span class="sr-only">Toggle navigation</span>-->
                     <span class="toggle-icon"></span>
                 </button>
                 <div class="logo">
@@ -29,11 +30,13 @@
             <div class="collapse navbar-collapse nav-collapse">
                 <div class="menu-container">
                     <ul class="nav navbar-nav navbar-nav-right">
-                        <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover" href="#body">Home</a>
+                        <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover" href="/home">Home</a>
                         </li>
                         <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover" href="/resumes">Resumes</a>
                         </li>
-                        <#if resume.user??>
+                        <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover" href="/support">Support</a>
+                        </li>
+                        <#if user??>
                             <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover"
                                                                 href="/profile">Profile</a></li>
                         <#else>
@@ -52,10 +55,20 @@
 </header>
 <div class="wrapper">
     <div class="sidebar-wrapper">
-        <div class="profile-container">
-            <img class="profile" src="/assets/img/images/profile.png" alt=""/>
-            <h1 class="name">${resume.user.firstName!""} ${resume.user.lastName!""}</h1>
-            <h3 class="tagline">${resume.title!""}</h3>
+        <div class="profile-container" id="profile_container">
+            <img class="profile" src="${resume.imagePath!"/assets/img/images/profile.png"}" alt=""/>
+            <h1 class="name">${resume.title!""}</h1>
+            <h3 class="tagline">${rate!"no rates"}</h3>
+            <#if userRate??>
+                <h5 id="user_rate">Your rate: ${userRate}</h5>
+            <#else>
+                <div id="choose_rate">
+                    <button onclick="subtractRate()">-</button>
+                    <h3 id="your_rate">5</h3>
+                    <button onclick="addRate()">+</button>
+                    <button onclick="sendRate(${resume.id})">Rate this resume</button>
+                </div>
+            </#if>
         </div>
         <div class="container container-block">
             <h2 class="container-block-title">Contacts</h2>
@@ -142,15 +155,16 @@
 </div>
 <footer class="footer">
     <div class="text-center">
-        <small><a href="/support">Support</a></small>
         <small class="copyright"> <a href="https://vk.com/alena.naud"
                                      target="_blank">Naumova Alyona</a> for
             employees</small>
     </div>
-    <div class="text-center">
-        <small><a href="/support">Support</a></small>
-    </div>
 </footer>
+
+<script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+<script src="/assets/js/rate.js"
+        type="text/javascript"></script>
 </body>
 </html>
 

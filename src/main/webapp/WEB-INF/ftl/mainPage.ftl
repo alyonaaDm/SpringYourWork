@@ -42,12 +42,19 @@
                         </li>
                         <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover" href="/resumes">Resumes</a>
                         </li>
-                        <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover"
-                                                            href="/signIn">Sign
-                                in</a></li>
-                        <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover"
-                                                            href="/signUp">Sign
-                                up</a></li>
+                        <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover" href="/support">Support</a>
+                        </li>
+                        <#if user??>
+                            <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover"
+                                                                href="/profile">Profile</a></li>
+                        <#else>
+                            <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover"
+                                                                href="/signIn">Sign
+                                    in</a></li>
+                            <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover"
+                                                                href="/signUp">Sign
+                                    up</a></li>
+                        </#if>
                     </ul>
                 </div>
             </div>
@@ -128,9 +135,6 @@
                                                      href="https://vk.com/alena.naud">Naumova
                         Alyona</a></p>
             </div>
-                <div class="text-center">
-                    <small><a href="/support">Support</a></small>
-                </div>
         </div>
     </div>
 </footer>

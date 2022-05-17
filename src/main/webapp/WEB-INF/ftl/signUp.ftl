@@ -8,7 +8,7 @@
     <label>Sign up</label>
     <div id="wrapper">
         <div id="arrow"></div>
-        <label for="login"></label><input name="login" id="login" placeholder="Login" type="text">
+        <label for="login"></label><input name="login" id="login" placeholder="Email" type="email">
         <label for="password"></label><input name="password" id="password" placeholder="Password" type="password">
         <label for="repassword"></label><input name="repassword" id="repassword" placeholder="Repeat password"
                                                type="password">

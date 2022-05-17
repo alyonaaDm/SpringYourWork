@@ -23,7 +23,7 @@
             <!-- верхняя неизменная панель -->
             <div class="menu-container js_nav-item">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
-                    <span class="sr-only">Toggle navigation</span>
+<#--                    <span class="sr-only">Toggle navigation</span>-->
                     <span class="toggle-icon"></span>
                 </button>
                 <div class="logo">
@@ -38,14 +38,23 @@
             <div class="collapse navbar-collapse nav-collapse">
                 <div class="menu-container">
                     <ul class="nav navbar-nav navbar-nav-right">
-                        <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover" href="#body">Home</a>
+                        <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover" href="/home">Home</a>
                         </li>
-                        <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover" href="#resumes">Resumes</a>
+                        <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover" href="/resumes">Resumes</a>
                         </li>
-                        <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover"
-                                                            href="/signIn">Sign in</a></li>
-                        <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover"
-                                                            href="/signUp">Sign up</a></li>
+                        <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover" href="/support">Support</a>
+                        </li>
+                        <#if user??>
+                            <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover"
+                                                                href="/profile">Profile</a></li>
+                        <#else>
+                            <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover"
+                                                                href="/signIn">Sign
+                                    in</a></li>
+                            <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover"
+                                                                href="/signUp">Sign
+                                    up</a></li>
+                        </#if>
                     </ul>
                 </div>
             </div>
@@ -61,10 +70,9 @@
         </div>
         <#list resumes as resume>
             <div class="col-sm-4 sm-margin-b-50" style="background-color: #f6f6f6">
-                <h4>${resume.title}</h4>
-                <p>${resume.about!""}</p>
+                <h4>${resume.title!}</h4>
+                <p>About me: ${resume.about!}</p>
 
-                <p>Skills: <#list resume.skills as skill>${skill.title} </#list></p>
                 <form action="/resumes/${resume.id}" method="get">
                     <button class="link" type="submit">Read More</button>
                 </form>
@@ -80,15 +88,12 @@
                      alt="yourWork Logo">
             </div>
             <div class="col-xs-6 text-right">
-                <p class="margin-b-0"><a class="fweight-700"
-                                         href="/support">Support</a></p>
                 <p class="margin-b-0">powered by: <a class="fweight-700"
                                                      href="https://vk.com/alena.naud">Naumova
                         Alyona</a></p>
             </div>
         </div>
     </div>
-
 </footer>
 
 <!-- JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="utf-8">
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,500,400italic,300italic,300,500italic,700,700italic,900,900italic'
           rel='stylesheet' type='text/css'>
@@ -13,8 +14,8 @@
         <div class="container">
             <!-- верхняя неизменная панель -->
             <div class="menu-container js_nav-item">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
-                    <span class="sr-only">Toggle navigation</span>
+<#--                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">-->
+<#--                    <span class="sr-only">Toggle navigation</span>-->
                     <span class="toggle-icon"></span>
                 </button>
                 <div class="logo">
@@ -29,11 +30,13 @@
             <div class="collapse navbar-collapse nav-collapse">
                 <div class="menu-container">
                     <ul class="nav navbar-nav navbar-nav-right">
-                        <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover" href="#body">Home</a>
+                        <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover" href="/home">Home</a>
                         </li>
                         <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover"
                                                             href="/resumes">Resumes</a></li>
-                        <#if resume.user??>
+                        <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover" href="/support">Support</a>
+                        </li>
+                        <#if user??>
                             <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover"
                                                                 href="/profile">Profile</a></li>
                         <#else>
@@ -53,8 +56,11 @@
 <div class="wrapper">
     <div class="sidebar-wrapper">
         <div class="profile-container">
-            <img class="profile" src="/assets/img/images/profile.png" alt=""/>
-            <h1 class="name">${resume.user.firstName!""} ${resume.user.lastName!""}</h1>
+            <img src="${resume.imagePath!"/assets/img/images/profile.png"}" alt="User Image">
+            <form action="/resumes/add_image/${resume.id}" enctype="multipart/form-data" method="post">
+                <input type="file" id="resumeImage" name="resumeImage" title="Change Image">
+                <button type="submit">Save</button>
+            </form>
             <label for="title"></label><input id="title" type="text" class="tagline" style="color: #0f0f0f"
                                               value="${resume.title!""}">
             <button onclick="updateTitle(${resume.id})">Save</button>
@@ -89,7 +95,7 @@
                                                                      placeholder="title">
                 <label for="new_education_place">Place</label><input type="text" id="new_education_place"
                                                                      placeholder="Place">
-                <label for="new_education_time">Time inverval</label><input type="text" id="new_education_time"
+                <label for="new_education_time">Time interval</label><input type="text" id="new_education_time"
                                                                             placeholder="Time inverval">
                 <button onclick="addEducation(${resume.id})">Add</button>
             </li>

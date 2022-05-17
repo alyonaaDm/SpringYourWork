@@ -25,5 +25,7 @@ public interface ResumesRepository extends JpaRepository<Resume, Long> {
     @Query("update Resume r set r.about = ?2 where r.id = ?1")
     void updateResumeAboutMe(Long id, String aboutMe);
 
-
+    @Modifying
+    @Query("update Resume r set r.imagePath = ?2 where r.id = ?1")
+    void updateUserImage(Long id, String imagePath);
 }

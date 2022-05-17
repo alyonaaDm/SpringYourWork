@@ -9,7 +9,7 @@
     <label>Sign in</label>
     <div id="wrapper">
         <div id="arrow"></div>
-        <input name="login" id="login" placeholder="Login" type="text">
+        <input name="login" id="login" placeholder="Email" type="text">
         <input name="password" id="password" placeholder="Password" type="password">
     </div>
     <button type="submit">Sign in</button>

@@ -32,6 +32,8 @@ public class ResumeServiceImpl implements ResumeService {
     private ProjectsRepository projectsRepository;
     @Autowired
     private SkillsRepository skillsRepository;
+    @Autowired
+    private RatesRepository ratesRepository;
 
     @Value("${sender.email}")
     private String senderEmail;
@@ -230,7 +232,6 @@ public class ResumeServiceImpl implements ResumeService {
             language.setResume(null);
         }
         return languages;
-
     }
 
     @Override
@@ -267,5 +268,48 @@ public class ResumeServiceImpl implements ResumeService {
             e.printStackTrace();
             System.out.println("Error sending email");
         }
+    }
+
+    @Override
+    public Rate rateResume(RateForm rateForm) {
+        Rate rate = Rate.builder()
+                .resume(rateForm.getResume())
+                .user(rateForm.getUser())
+                .rate(rateForm.getRate())
+                .build();
+        return ratesRepository.save(rate);
+    }
+
+    @Override
+    public List<Rate> findRatesByResume(Resume resume) {
+        return ratesRepository.findAllByResume(resume);
+    }
+
+    @Override
+    public Float findAverageRateOfResume(Resume resume) {
+        List<Rate> rates = findRatesByResume(resume);
+        Float average = null;
+        if (rates.size() > 0) {
+            average = 0f;
+            for (Rate rate : rates) {
+                average += rate.getRate();
+            }
+            average /= rates.size();
+        }
+        return average;
+    }
+
+    @Override
+    public void updateResumeImage(Long resumeId, String imagePath) {
+        resumesRepository.updateUserImage(resumeId, imagePath);
+    }
+
+    @Override
+    public Rate findRateByUserAndResume(User user, Resume resume) {
+        Optional<Rate> optional = ratesRepository.findByUserAndResume(user, resume);
+        if (optional.isPresent()) {
+            return optional.get();
+        }
+return null;
     }
 }
